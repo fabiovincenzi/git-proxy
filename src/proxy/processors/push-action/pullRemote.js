@@ -28,19 +28,18 @@ const exec = async (req, action) => {
       .toString()
       .split(':');
 
-    await git
-      .clone({
-        fs,
-        http: gitHttpClient,
-        url: action.url,
-        onAuth: () => ({
-          username,
-          password,
-        }),
-        dir: `${action.proxyGitPath}/${action.repoName}`,
-      });
+    await git.clone({
+      fs,
+      http: gitHttpClient,
+      url: action.url,
+      onAuth: () => ({
+        username,
+        password,
+      }),
+      dir: `${action.proxyGitPath}/${action.repoName}`,
+    });
 
-      console.log('Clone Success: ', action.url);
+    console.log('Clone Success: ', action.url);
 
     step.log(`Completed ${cmd}`);
     step.setContent(`Completed ${cmd}`);

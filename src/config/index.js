@@ -168,7 +168,7 @@ const getPlugins = () => {
     _plugins = _userSettings.plugins;
   }
   return _plugins;
-}
+};
 
 const getSSLKeyPath = () => {
   if (_userSettings && _userSettings.sslKeyPemPath) {
