@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable max-len */
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import * as fs from 'fs';

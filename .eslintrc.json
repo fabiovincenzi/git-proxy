@@ -1,5 +1,4 @@
 {
-  "parser": "@babel/eslint-parser",
   "env": {
     "node": true,
     "browser": true,
@@ -14,25 +13,42 @@
     "prettier",
     "plugin:json/recommended"
   ],
-  "overrides": [],
   "parserOptions": {
-    "requireConfigFile": false,
     "ecmaVersion": 12,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true,
-      "modules": true
-    },
-    "babelOptions": {
-      "presets": ["@babel/preset-react"]
+      "jsx": true
     }
   },
   "plugins": ["react", "prettier"],
   "rules": {
     "react/prop-types": "off",
     "require-jsdoc": "off",
-    "no-async-promise-executor": "off"
+    "no-async-promise-executor": "off",
+    "prettier/prettier": "error"
   },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"],
+      "parser": "@babel/eslint-parser",
+      "parserOptions": {
+        "requireConfigFile": false,
+        "babelOptions": {
+          "presets": ["@babel/preset-react"]
+        }
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:react/recommended", "prettier"],
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "warn"
+      }
+    }
+  ],
   "settings": {
     "react": {
       "version": "detect"
