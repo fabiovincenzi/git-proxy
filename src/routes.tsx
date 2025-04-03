@@ -16,6 +16,7 @@
 
 */
 
+import React from 'react';
 import Person from '@material-ui/icons/Person';
 import OpenPushRequests from './ui/views/OpenPushRequests/OpenPushRequests';
 import PushDetails from './ui/views/PushDetails/PushDetails';
@@ -25,10 +26,18 @@ import RepoDetails from './ui/views/RepoDetails/RepoDetails';
 import RepoList from './ui/views/RepoList/RepoList';
 
 import { RepoIcon } from '@primer/octicons-react';
-
 import { Group, AccountCircle, Dashboard } from '@material-ui/icons';
 
-const dashboardRoutes = [
+interface RouteType {
+  path: string;
+  name: string;
+  icon: React.ComponentType<any>;
+  component: React.ComponentType<any>;
+  layout: string;
+  visible: boolean;
+}
+
+const dashboardRoutes: RouteType[] = [
   {
     path: '/repo',
     name: 'Repositories',
