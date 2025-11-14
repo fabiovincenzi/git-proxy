@@ -4,6 +4,7 @@ import crypto from 'crypto';
 
 import * as db from '../../db';
 import { toPublicUser } from './publicApi';
+import { DuplicateSSHKeyError, UserNotFoundError } from '../../errors/DatabaseErrors';
 
 const router = express.Router();
 
@@ -120,14 +121,18 @@ router.post('/:username/ssh-keys', async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error('Error adding SSH key:', error);
 
-    // Return specific error message
-    if (error.message === 'SSH key already exists') {
-      res.status(409).json({ error: 'This SSH key already exists' });
-    } else if (error.message === 'User not found') {
-      res.status(404).json({ error: 'User not found' });
-    } else {
-      res.status(500).json({ error: error.message || 'Failed to add SSH key' });
+    if (error instanceof DuplicateSSHKeyError) {
+      res.status(409).json({ error: error.message });
+      return;
     }
+
+    if (error instanceof UserNotFoundError) {
+      res.status(404).json({ error: error.message });
+      return;
+    }
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    res.status(500).json({ error: `Failed to add SSH key: ${errorMessage}` });
   }
 });
 
