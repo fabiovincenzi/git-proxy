@@ -23,14 +23,6 @@ jobs:
         with:
           install: true
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
 
@@ -50,10 +42,7 @@ jobs:
           git config --global init.defaultBranch main
 
       - name: Build and start services with Docker Compose
-        run: docker compose up -d --build --wait
-        env:
-          BUILDX_BAKE_GHA_CACHE_FROM: type=local,src=/tmp/.buildx-cache
-          BUILDX_BAKE_GHA_CACHE_TO: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build --wait
 
       - name: Debug service state
         if: failure()
@@ -67,14 +56,6 @@ jobs:
       - name: Dump git-proxy logs on failure
         if: failure()
         run: docker compose logs git-proxy --tail=100
-
-      - name: Rotate Docker layer cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          if [ -d /tmp/.buildx-cache-new ]; then
-            mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-          fi
-        if: always()
 
       - name: Stop services
         if: always()
@@ -92,14 +73,6 @@ jobs:
         with:
           install: true
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
 
@@ -119,10 +92,7 @@ jobs:
           git config --global init.defaultBranch main
 
       - name: Build and start services with Docker Compose
-        run: docker compose up -d --build --wait
-        env:
-          BUILDX_BAKE_GHA_CACHE_FROM: type=local,src=/tmp/.buildx-cache
-          BUILDX_BAKE_GHA_CACHE_TO: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build --wait
 
       - name: Debug service state
         if: failure()
@@ -150,14 +120,6 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
           retention-days: 7
-
-      - name: Rotate Docker layer cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          if [ -d /tmp/.buildx-cache-new ]; then
-            mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-          fi
-        if: always()
 
       - name: Stop services
         if: always()
