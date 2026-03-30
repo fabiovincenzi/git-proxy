@@ -18,7 +18,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
-// Styles
+// Styles comment
 import 'font-awesome/css/font-awesome.min.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
