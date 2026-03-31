@@ -13,6 +13,8 @@ on:
 jobs:
   e2e-vitest:
     runs-on: ubuntu-latest
+    env:
+      BUILDX_CACHE_SCOPE: vitest-build
 
     steps:
       - name: Checkout code
@@ -22,11 +24,9 @@ jobs:
         uses: docker/setup-buildx-action@d91f340399fb2345e3e45f5461e116862b08261d
         with:
           install: true
+
       - name: Expose GitHub Runtime for Docker Cache
         uses: crazy-max/ghaction-github-runtime@v3
-
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
@@ -68,6 +68,8 @@ jobs:
 
   e2e-cypress:
     runs-on: ubuntu-latest
+    env:
+      BUILDX_CACHE_SCOPE: cypress-build
 
     steps:
       - name: Checkout code
@@ -77,6 +79,9 @@ jobs:
         uses: docker/setup-buildx-action@d91f340399fb2345e3e45f5461e116862b08261d
         with:
           install: true
+
+      - name: Expose GitHub Runtime for Docker Cache
+        uses: crazy-max/ghaction-github-runtime@v3
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
