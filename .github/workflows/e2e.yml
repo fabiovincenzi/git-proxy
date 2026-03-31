@@ -26,9 +26,7 @@ jobs:
           install: true
 
       - name: Expose GitHub Runtime for Docker Cache
-        run: |
-          echo "ACTIONS_CACHE_URL=$ACTIONS_CACHE_URL" >> $GITHUB_ENV
-          echo "ACTIONS_RUNTIME_TOKEN=$ACTIONS_RUNTIME_TOKEN" >> $GITHUB_ENV
+        uses: crazy-max/ghaction-github-runtime@3cb05d89e1f492524af3d41a1c98c83bc3025124 # v3
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
@@ -83,9 +81,7 @@ jobs:
           install: true
 
       - name: Expose GitHub Runtime for Docker Cache
-        run: |
-          echo "ACTIONS_CACHE_URL=$ACTIONS_CACHE_URL" >> $GITHUB_ENV
-          echo "ACTIONS_RUNTIME_TOKEN=$ACTIONS_RUNTIME_TOKEN" >> $GITHUB_ENV
+        uses: crazy-max/ghaction-github-runtime@3cb05d89e1f492524af3d41a1c98c83bc3025124 # v3
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@e29e0ecd235838be5f2e823f8f512a72dc55f662
